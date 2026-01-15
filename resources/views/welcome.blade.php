@@ -1,16 +1,6 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>
-        {{ config('app.name') }}
-    </title>
-    @vite('resources/css/app.css')
-</head>
-<body>
-    <h1 class="text-3x1 font-bold">Hellow Word</h1>
-    @vite('resources/js/app.js')
-</body>
-</html>
+@extends('layout.layout')
+@section('content')
+<main class="py-5">
+    Main
+</main>
+@endsection
