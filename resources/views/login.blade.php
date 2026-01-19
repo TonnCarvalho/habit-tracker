@@ -1,23 +1,35 @@
 @extends('layout.layout')
 @section('content')
     <main class="py-5">
-        <section>
-            <form action="{{ route('login.autenticate') }}" method="POST">
+        <section class="mx-auto bg-white max-w-[600px] p-10 border-2">
+            <h1 class="text-3xl font-bold">Logue</h1>
+            <p>Insira seus dados para acessar</p>
+            <form action="{{ route('login.autenticate') }}" method="POST" class="flex flex-col gap-2">
                 @csrf
-                <input type="email" name="email" placeholder="Email" class="bg-white p-2 border-2">
 
-                <input type="password" name="password" placeholder="*******" class="bg-white p-2 border-2">
+                <label for="email">Email</label>
 
-                <button type="submit" class="bg-white border-2 p-2">Entrar</button>
-            </form>
-            
-            <div>
+                <input type="email" id="email" name="email" placeholder="Email" value="{{ old('email') }}"
+                    class="bg-white p-2 border-2
+                    @error('email')
+                    border-red-500
+                    @enderror">
                 @error('email')
-                <p class="text-red-500 p-2">
-                    {{ $message }}
-                </p>
+                    <p class="text-red-500">{{ $message }}</p>
                 @enderror
-            </div>
+
+                <label for="password">Senha</label>
+
+                <input type="password" id="password" name="password" placeholder="*******"
+                    class="bg-white p-2 border-2 @error('password')
+                    border-red-500
+                @enderror">
+                @error('password')
+                    <p class="text-red-500">{{ $message }}</p>
+                @enderror
+
+                <button type="submit" class=" bg-amber-500 border-2 p-2">Entrar</button>
+            </form>
         </section>
     </main>
 @endsection
