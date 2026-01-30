@@ -1,7 +1,7 @@
 @extends('layout.layout')
 @section('content')
     <main class="py-5">
-        <section class="mx-auto bg-white max-w-[600px] p-10 border-2">
+        <section class="mx-auto bg-white max-w-[600px] p-10 pb-6 border-2">
             <h1 class="text-3xl font-bold">Logue</h1>
             <p>Insira seus dados para acessar</p>
             <form action="{{ route('login.autenticate') }}" method="POST" class="flex flex-col gap-2">
@@ -30,6 +30,14 @@
 
                 <button type="submit" class=" bg-amber-500 border-2 p-2">Entrar</button>
             </form>
+
+            <p class="mt-3 text-center">
+                Ainda não tem uma conta?
+                <a class="underline hover:opacity-50 transition" href="{{ route('register.index') }}">
+                    Registre-se
+                </a>
+            </p>
+
         </section>
     </main>
 @endsection

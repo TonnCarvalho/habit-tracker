@@ -25,7 +25,6 @@ class LoginController extends Controller
 
         $request->session()->regenerate();
         return redirect()->intended(route('site.dashboard'));
-
     }
 
     public function logout(Request $request): RedirectResponse
