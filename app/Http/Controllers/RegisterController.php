@@ -13,6 +13,13 @@ class RegisterController extends Controller
         return view('register');
     }
 
+    /**
+     * Registrar um usuário no bando de dados.
+     * Validação feita pelo RegisterRequest
+     * @param RegisterRequest $request
+     * @param User $userModel
+     * @return void
+     */
     public function store(RegisterRequest $request, User $userModel)
     {
         $user = $userModel->create([
@@ -20,7 +27,7 @@ class RegisterController extends Controller
             'email' => $request->input('email'),
             'password' => $request->input('password'),
         ]);
-        
+
         Auth::login($user);
 
         return redirect()->route('site.dashboard');
