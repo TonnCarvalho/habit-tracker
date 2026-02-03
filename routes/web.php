@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SiteController;
+use App\Http\Controllers\HabitController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 
@@ -19,5 +20,10 @@ Route::post('/register', [RegisterController::class, 'store'])->name('register.s
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('login.logout');
 
+    //Dashboard
     Route::get('/dashboard', [SiteController::class, 'dashboard'])->name('site.dashboard');
+
+    //Habits
+    Route::get('/dashboard/habits/create', [HabitController::class, 'create'])->name('habits.create');
+    Route::post('/dashboard/habits', [HabitController::class, 'store'])->name('habits.store');
 });
