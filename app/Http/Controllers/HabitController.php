@@ -36,7 +36,7 @@ class HabitController extends Controller
         auth()->user()->habits()->create($validated);
 
         return redirect()->route('site.dashboard')
-        ->with('success', 'Hábito criado com sucesso.');
+            ->with('success', 'Hábito criado com sucesso.');
     }
 
     /**
@@ -68,6 +68,16 @@ class HabitController extends Controller
      */
     public function destroy(Habit $habit)
     {
-        //
+        //Valida se o hábito pertence ao usuário logado
+        if ($habit->user_id != auth()->user()->id) {
+            abort(403, 'Esse hábit não é seu!');
+        }
+
+        //deleta
+        $habit->delete($habit->id);
+
+        return redirect()
+            ->route('site.dashboard')
+            ->with('success', 'Hábito removido com sucesso!');
     }
 }
