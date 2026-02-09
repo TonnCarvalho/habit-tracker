@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\SiteController;
 use App\Http\Controllers\HabitController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
@@ -21,10 +20,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('login.logout');
 
     //Habits
-    // Route::get('/habits/create', [HabitController::class, 'create'])->name('habits.create');
-    // Route::post('/habits', [HabitController::class, 'store'])->name('habits.store');
-    // Route::get('/habits/{habit}/edit', [HabitController::class, 'edit'])->name('habits.edit');
-    // Route::patch('/habits/{habit}', [HabitController::class, 'update'])->name('habits.update');
-    // Route::delete('/habits/{habit}', [HabitController::class, 'destroy'])->name('habits.destroy');
     Route::resource('/habits', HabitController::class)->except(['show']);
+    Route::get('/habits/settings', [HabitController::class, 'habtisSettings'])->name('habits.settings');
 });

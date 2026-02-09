@@ -94,4 +94,12 @@ class HabitController extends Controller
             ->route('habits.index')
             ->with('success', 'Hábito removido com sucesso!');
     }
+
+    public function habtisSettings()
+    {
+        $habits = auth()->user()->habits;
+        return view('habits.settings', compact(
+            'habits'
+        ));
+    }
 }

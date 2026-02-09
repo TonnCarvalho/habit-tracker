@@ -22,7 +22,7 @@
     @endsession
 
     <h2 class="text-xl mt-8 mb-4">
-        {{ date('d/m/Y') }}
+        Configurar hábitos
     </h2>
 
     <ul class="flex flex-col gap-2">
@@ -30,12 +30,23 @@
             <li class="habit-shadow p-2 bg-[#FFDAAC]">
                 <div class="flex gap-2 items-center">
 
-                    <input type="checkbox" class=" w-5 h-5">
-
                     <p class="font-bold text-xl">
                         {{ $habit->name }}
                     </p>
-                </div>
+               
+
+                <a class="text-blue-500 hover:opacity-50" href="{{ route('habits.edit', $habit->id) }}">
+                    <x-icons.pencil />
+                </a>
+                <form action="{{ route('habits.destroy', $habit->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+
+                    <button type="submit" class=" text-red-500 p-1 hover:opacity-50 cursor-pointer">
+                        <x-icons.trash />
+                    </button>
+                </form>
+                 </div>
             </li>
         @empty
             <p>
@@ -44,6 +55,7 @@
             <a href="" class="bg-white p-2 border-2">Cadastra</a>
         @endforelse
     </ul>
+
 @endsection
 
 {{-- <a class="text-blue-500 hover:opacity-50" href="{{ route('habits.edit', $habit->id) }}">

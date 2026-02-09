@@ -10,7 +10,7 @@
                 <label for="email">Email</label>
 
                 <input type="email" id="email" name="email" placeholder="Email" value="{{ old('email') }}"
-                    class="bg-white p-2 border-2
+                    class="bg-white p-2 habit-shadow
                     @error('email')
                     border-red-500
                     @enderror">
@@ -21,14 +21,16 @@
                 <label for="password">Senha</label>
 
                 <input type="password" id="password" name="password" placeholder="*******"
-                    class="bg-white p-2 border-2 @error('password')
+                    class="bg-white p-2 habit-shadow @error('password')
                     border-red-500
                 @enderror">
                 @error('password')
                     <p class="text-red-500">{{ $message }}</p>
                 @enderror
 
-                <button type="submit" class=" bg-amber-500 border-2 p-2">Entrar</button>
+                <button type="submit" class="bg-habit-orange habit-shadow habit-btn">
+                    Entrar
+                </button>
             </form>
 
             <p class="mt-3 text-center">
