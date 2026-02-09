@@ -20,13 +20,11 @@ Route::post('/register', [RegisterController::class, 'store'])->name('register.s
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('login.logout');
 
-    //Dashboard
-    Route::get('/dashboard', [SiteController::class, 'dashboard'])->name('site.dashboard');
-
     //Habits
-    Route::get('/habits/create', [HabitController::class, 'create'])->name('habits.create');
-    Route::post('/habits', [HabitController::class, 'store'])->name('habits.store');
-    Route::get('/habits/{habit}/edit', [HabitController::class, 'edit'])->name('habits.edit');
-    Route::patch('/habits/{habit}', [HabitController::class, 'update'])->name('habits.update');
-    Route::delete('/habits/{habit}', [HabitController::class, 'destroy'])->name('habits.destroy');
+    // Route::get('/habits/create', [HabitController::class, 'create'])->name('habits.create');
+    // Route::post('/habits', [HabitController::class, 'store'])->name('habits.store');
+    // Route::get('/habits/{habit}/edit', [HabitController::class, 'edit'])->name('habits.edit');
+    // Route::patch('/habits/{habit}', [HabitController::class, 'update'])->name('habits.update');
+    // Route::delete('/habits/{habit}', [HabitController::class, 'destroy'])->name('habits.destroy');
+    Route::resource('/habits', HabitController::class)->except(['show']);
 });
