@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\HabitRequest;
 use App\Models\Habit;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
+use App\Http\Requests\HabitRequest;
+use App\Models\HabitLog;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class HabitController extends Controller
 {
@@ -14,7 +16,7 @@ class HabitController extends Controller
      */
     public function index()
     {
-        $habits = auth()->user()->habits;
+        $habits = Auth::user()->habits;
 
         return view('habits.habit', compact(
             'habits'
@@ -37,7 +39,7 @@ class HabitController extends Controller
 
         $validated = $request->validated();
 
-        auth()->user()->habits()->create($validated);
+        Auth::user()->habits()->create($validated);
 
         return redirect()->route('habits.index')
             ->with('success', 'Hábito criado com sucesso.');
@@ -66,7 +68,7 @@ class HabitController extends Controller
      */
     public function update(HabitRequest $request, Habit $habit)
     {
-        if ($habit->id != auth()->user()->id) {
+        if ($habit->id != Auth::user()->id) {
             abort(403, 'Esse hábito não é seu');
         }
 
@@ -83,7 +85,7 @@ class HabitController extends Controller
     public function destroy(Habit $habit)
     {
         //Valida se o hábito pertence ao usuário logado
-        if ($habit->user_id != auth()->user()->id) {
+        if ($habit->user_id != Auth::user()->id) {
             abort(403, 'Esse hábito não é seu!');
         }
 
@@ -97,9 +99,44 @@ class HabitController extends Controller
 
     public function habtisSettings()
     {
-        $habits = auth()->user()->habits;
+        $habits = Auth::user()->habits;
         return view('habits.settings', compact(
             'habits'
         ));
+    }
+    public function toggle(Habit $habit)
+    {
+        //Verifica se o usuário autenticado é dono do hábito
+        if ($habit->user_id != Auth::user()->id) {
+            abort(403, 'Esse hábito não é seu');
+        }
+
+        //Pega a data de hoje
+        $today = Carbon::today()->toDateString();
+
+        //Pega o log
+        $log = HabitLog::query()
+            ->where('habit_id', $habit->id)
+            ->where('completed_at', $today)
+            ->first();
+
+        //Validar se nessa data já existe um registro.
+        if ($log) {
+            //Se existir remove o registro
+            $log->delete();
+            $message = 'Hábito desmarcado';
+        } else {
+            //Se não existir, cria um registro
+            HabitLog::create([
+                'user_id' => Auth::user()->id,
+                'habit_id' => $habit->id,
+                'completed_at' => $today
+            ]);
+            $message = 'Hábito concluido 👏🏽';
+        }
+        //Retorna para a página anterior
+        return redirect()
+            ->route('habits.index')
+            ->with('success', $message);
     }
 }
