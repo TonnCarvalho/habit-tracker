@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class HabitLog extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'user_id',
         'habit_id',

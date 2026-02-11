@@ -16,7 +16,9 @@ class HabitController extends Controller
      */
     public function index()
     {
-        $habits = Auth::user()->habits;
+        $habits = Auth::user()->habits()
+        ->with('habitsLogs')
+        ->get();
 
         return view('habits.habit', compact(
             'habits'
