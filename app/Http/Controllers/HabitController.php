@@ -7,18 +7,20 @@ use Illuminate\View\View;
 use App\Http\Requests\HabitRequest;
 use App\Models\HabitLog;
 use Carbon\Carbon;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
 
 class HabitController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $habits = Auth::user()->habits()
-        ->with('habitsLogs')
-        ->get();
+            ->with('habitsLogs')
+            ->get();
 
         return view('habits.habit', compact(
             'habits'
@@ -60,6 +62,7 @@ class HabitController extends Controller
      */
     public function edit(Habit $habit)
     {
+        $this->authorize('update', $habit);
         return view('habits.edit', compact(
             'habit'
         ));
@@ -70,9 +73,11 @@ class HabitController extends Controller
      */
     public function update(HabitRequest $request, Habit $habit)
     {
-        if ($habit->id != Auth::user()->id) {
-            abort(403, 'Esse hábito não é seu');
-        }
+
+        $this->authorize('update', $habit);
+        // if ($habit->id != Auth::user()->id) {
+        //     abort(403, 'Esse hábito não é seu');
+        // }
 
         $habit->update($request->all());
 
@@ -87,9 +92,7 @@ class HabitController extends Controller
     public function destroy(Habit $habit)
     {
         //Valida se o hábito pertence ao usuário logado
-        if ($habit->user_id != Auth::user()->id) {
-            abort(403, 'Esse hábito não é seu!');
-        }
+        $this->authorize('delete', $habit);
 
         //deleta
         $habit->delete($habit->id);
@@ -109,9 +112,7 @@ class HabitController extends Controller
     public function toggle(Habit $habit)
     {
         //Verifica se o usuário autenticado é dono do hábito
-        if ($habit->user_id != Auth::user()->id) {
-            abort(403, 'Esse hábito não é seu');
-        }
+        $this->authorize('toggle', $habit);
 
         //Pega a data de hoje
         $today = Carbon::today()->toDateString();

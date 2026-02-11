@@ -13,6 +13,6 @@ class HabitLogSeeder extends Seeder
      */
     public function run(): void
     {
-        HabitLog::factory()->count(10)->create();
+        HabitLog::factory()->count(3)->create();
     }
 }
