@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Habit;
-use Illuminate\View\View;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\HabitRequest;
+use App\Models\Habit;
 use App\Models\HabitLog;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class HabitController extends Controller
 {
@@ -141,5 +142,26 @@ class HabitController extends Controller
         return redirect()
             ->route('habits.index')
             ->with('success', $message);
+    }
+
+    public function history(Habit $habit): View
+    {
+        //Trazer o ano atual
+        $selectedYear = Carbon::now()->year;
+
+        //Setar inicio e fim do ano
+        $startDate = Carbon::create($selectedYear, 1, 1);
+        $endDate = Carbon::create($selectedYear, 12, 31, 23, 59 ,59);
+
+        //Trazer os hábitos com os logs filtrados por ano atual
+        $habits = Auth::user()->habits()
+            ->with(['habitsLogs' => function ($query) use ($startDate, $endDate) {
+                $query->whereBetween('completed_at', [$startDate, $endDate]);
+            }])
+            ->get();
+        return view('habits.history', compact([
+            'selectedYear',
+            'habits'
+        ]));
     }
 }

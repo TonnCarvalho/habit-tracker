@@ -51,15 +51,3 @@
         @endforelse
     </ul>
 @endsection
-
-{{-- <a class="text-blue-500 hover:opacity-50" href="{{ route('habits.edit', $habit->id) }}">
-    <x-icons.pencil />
-</a>
-<form action="{{ route('habits.destroy', $habit->id) }}" method="POST">
-    @csrf
-    @method('DELETE')
-
-    <button type="submit" class=" text-red-500 p-1 hover:opacity-50 cursor-pointer">
-        <x-icons.trash />
-    </button>
-</form> --}}

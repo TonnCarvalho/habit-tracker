@@ -1,4 +1,4 @@
-<nav>
+<nav class="mb-10">
     <ul class="flex gap-2">
         <li>
             <a href="{{ route('habits.index') }}"
@@ -7,8 +7,8 @@
             </a>
         </li>
         <li>
-            <a href=""
-                class="{{ Route::is('') ? 'font-bold underline' : '' }} border-r-2 pr-2 border-habit-orange hover:underline">
+            <a href="{{ route('habits.history') }}"
+                class="{{ Route::is('habits.history') ? 'font-bold underline' : '' }} border-r-2 pr-2 border-habit-orange hover:underline">
                 Historico
             </a>
         </li>

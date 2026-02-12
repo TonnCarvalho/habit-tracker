@@ -20,7 +20,7 @@
 <body class="bg-[#FFEDD6] font-mono">
     @include('layout.header')
 
-    <main class="py-10 min-h-[calc(100vh-160px)] px-4">
+    <main class="max-w-7xl mx-auto py-10 min-h-[calc(100vh-160px)] px-4">
         @yield('content')
     </main>
     
