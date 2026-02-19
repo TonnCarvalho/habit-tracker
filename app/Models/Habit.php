@@ -44,6 +44,12 @@ class Habit extends Model
             ->isNotEmpty();
     }
 
+    // public funtion avaliableYears()
+    // {
+    //     return $this->habitsLogs
+    //     ->e
+    // }
+
     /**
      * Generate a year grid for the giver year.
      *

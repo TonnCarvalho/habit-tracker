@@ -144,10 +144,22 @@ class HabitController extends Controller
             ->with('success', $message);
     }
 
-    public function history(Habit $habit): View
+    public function history(?int $year = null): View
     {
         //Trazer o ano atual
-        $selectedYear = Carbon::now()->year;
+        $selectedYear = $year ?? Carbon::now()->year;
+
+        //anos validos.
+        $avaliableYears = HabitLog::query()
+            ->selectRaw('YEAR(completed_at) as year')
+            ->groupBy('year')
+            ->orderBy('year', 'desc')
+            ->pluck('year')
+            ->toArray();
+
+        if (!in_array($selectedYear, $avaliableYears)) {
+            abort(404, 'Ano invalido');
+        }
 
         //Setar inicio e fim do ano
         $startDate = Carbon::create($selectedYear, 1, 1);
@@ -162,7 +174,8 @@ class HabitController extends Controller
 
         return view('habits.history', compact([
             'selectedYear',
-            'habits'
+            'habits',
+            'avaliableYears'
         ]));
     }
 }
