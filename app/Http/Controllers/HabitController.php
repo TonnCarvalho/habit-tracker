@@ -151,7 +151,7 @@ class HabitController extends Controller
 
         //Setar inicio e fim do ano
         $startDate = Carbon::create($selectedYear, 1, 1);
-        $endDate = Carbon::create($selectedYear, 12, 31, 23, 59 ,59);
+        $endDate = Carbon::create($selectedYear, 12, 31, 23, 59, 59);
 
         //Trazer os hábitos com os logs filtrados por ano atual
         $habits = Auth::user()->habits()
@@ -159,6 +159,7 @@ class HabitController extends Controller
                 $query->whereBetween('completed_at', [$startDate, $endDate]);
             }])
             ->get();
+
         return view('habits.history', compact([
             'selectedYear',
             'habits'
